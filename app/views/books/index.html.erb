@@ -1,0 +1,37 @@
+<h1>Books list</h1>
+
+<%= link_to "New Book", new_book_path %>
+
+<%= search_form_for @q do |f| %>
+    <%= f.label :status_eq, "Status" %>
+    <%= f.select :status_eq, options_for_select(Book.statuses, @q.status_eq), { include_blank: 'all' }, {} %>
+    <%= f.submit %>
+<% end %>
+
+
+<table>
+    <thead>
+        <tr>
+            <th><%= sort_link(@q, :title, 'Title', default_order: :desc) %></th>
+            <th>Author</th>
+            <th>Status</th>
+            <th>Borrowed at</th>
+            <th>Returned at</th>
+            <th coldspan = "3">Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @books.each do |book| %>
+        <tr>
+            <td><%= book.title %></td>
+            <td><%= book.author %></td>
+            <td><%= book.status %></td>
+            <td><%= book.borrowed_at %></td>
+            <td><%= book.returned_at %></td>
+            <td><%= link_to 'Show', book %></td>  
+            <td><%= link_to 'Edit', edit_book_path(book) %></td> 
+            <td><%= link_to 'Destroy', book, method: :delete, data: { confirm: 'Are u sure about that!?(j.cena)' } %></td>       
+        </tr>
+        <% end %>
+    </tbody>
+</table>
